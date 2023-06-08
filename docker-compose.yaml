@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      image: go_app
+    image: m8122000/go_app:latest
     container_name: go_app
     ports:
       - "9090:9090"
