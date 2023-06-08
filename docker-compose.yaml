@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    args:
+        - IMAGE_NAME=internship-image
+        - IMAGE_TAG=latest
     container_name: go_app
     ports:
       - "9090:9090"
