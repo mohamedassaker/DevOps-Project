@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go_app
+    ports:
+      - "9090:9090"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASS=secret
+      - MYSQL_PORT=3306
+    depends_on:
+      - db
+    command: sh -c "while ! nc -z db 3306; do sleep 1; done && ./app"
+
+  db:
+    image: mysql
+    container_name: go_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=internship
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
