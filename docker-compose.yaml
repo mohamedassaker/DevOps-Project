@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: m8122000/go_app:latest
-    container_name: go_app
+    container_name: go-app
     ports:
       - "9090:9090"
     environment:
