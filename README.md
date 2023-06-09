@@ -2,6 +2,14 @@
 
 Docker image: https://hub.docker.com/repository/docker/m8122000/go_app/general
 
+This project contains:
+* Dockerfile that build the app
+* Jenkinsfile to build the app using docker-compose.yaml
+* Docker compose file that contains both application and mysql database. There is a volume attached to mysql database to store the data.
+* Helm manifests for kubernetes to deploy the app.
+* Autoscaling manifest
+* Argocd app
+
 This program is very simple, it connects to a MySQL database based on the following env vars:
 * MYSQL_HOST
 * MYSQL_USER
