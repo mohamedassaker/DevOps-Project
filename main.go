@@ -1,10 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -15,19 +18,19 @@ type handler struct {
 }
 
 type row struct {
-	id        int64
-	createdAt time.Time
+	ID        int64     `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/healthcheck" {
-		w.WriteHeader(200)
+		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"status":"ok"}`))
 		return
 	}
 	switch r.Method {
 	case "GET":
-		rs, err := _connection.Query(`SELECT id,created_at FROM stuff`)
+		rs, err := _connection.Query(`SELECT id, created_at FROM stuff`)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Internal Server Error"))
@@ -38,8 +41,8 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		for rs.Next() {
 			cur := row{}
 			err = rs.Scan(
-				&cur.id,
-				&cur.createdAt,
+				&cur.ID,
+				&cur.CreatedAt,
 			)
 
 			if err != nil {
@@ -81,6 +84,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		_, err = _connection.Exec(`UPDATE stuff SET created_at=NOW() WHERE id=?`, id)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Internal Server Error"))
 			return
 		}
 
