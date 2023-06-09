@@ -1,5 +1,7 @@
 # Wow Such Program
 
+Docker image: https://hub.docker.com/repository/docker/m8122000/go_app/general
+
 This program is very simple, it connects to a MySQL database based on the following env vars:
 * MYSQL_HOST
 * MYSQL_USER
